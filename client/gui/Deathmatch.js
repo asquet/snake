@@ -12,9 +12,14 @@ export default class Deathmatch {
     render() {
         let html = $(`
             <div id="gameWrap">
-                <canvas id="game-duel-canvas"></canvas>
+                <h1>Deathmatch</h1>
+                <div>
+                    <canvas id="game-duel-canvas"></canvas>
+                </div>
+                <button class="back">back</button>
             </div>`);
         this.canvas = html.find('#game-duel-canvas')[0];
+        html.find('button.back').on('click',()=>this.owner.event('deathmatch', 'menu'));
         return html;
     }
 
@@ -33,7 +38,7 @@ export default class Deathmatch {
         this.remote.connect(dmCfg.namespace, player);
 
         if (isServer) {
-            this.game = gameSetup(loadLevel(null, true, this.player), this, window, this.canvas, this.remote).then(gameRunner => {
+            gameSetup(loadLevel(null, true, this.player), this, window, this.canvas, this.remote).then(gameRunner => {
                 this.game = gameRunner;
                 this.game.startGame();
             });
@@ -43,11 +48,10 @@ export default class Deathmatch {
         }
     }
 
-
     event(name, desc) {
         switch (name) {
             case "loadInitData":
-                this.game = gameSetup(loadLevel(desc, false, this.player), this, window, this.canvas, this.remote).then(gameRunner => {
+                gameSetup(loadLevel(desc, false, this.player), this, window, this.canvas, this.remote).then(gameRunner => {
                     this.game = gameRunner;
                     this.game.startGame();
                 });
