@@ -60,8 +60,32 @@ class Snake extends GameObject {
 
     }
 
+    _hash(string) {
+            let hash = 0, i, chr, len;
+            if (string.length === 0) return hash;
+            for (i = 0, len = string.length; i < len; i++) {
+                chr   = string.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash;
+    }
+
+    getFilter () {
+        if (!this.player) return null;
+
+        if (!this.filter) {
+            this.filter = {
+                hue: this._hash(this.player.name) % 256
+            }
+        }
+        return this.filter;
+    }
+
     getRenderedChildren() {
-        return [this.head].concat(this.body).concat([this.tail]);
+        let res =  [this.head].concat(this.body).concat([this.tail]);
+        res.forEach(ro => ro.filter = this.getFilter());
+        return res;
     }
 
     getColliders() {

@@ -11,7 +11,8 @@ export default class RootContainer extends Container {
     _createSprite(renderedObject) {
         let sprite = new PIXI.Sprite(PIXI.loader.resources[renderedObject.texture].texture);
         sprite.visible = false; //hide initially
-        sprite.pivot.set(5, 5);
+        sprite.pivot.set(5, 5); //for rotation around center
+
         return sprite;
     }
 
@@ -27,6 +28,15 @@ export default class RootContainer extends Container {
         sprite.scale.y = obj.scaleY;
         sprite.rotation = obj.rotation;
         sprite.visible = obj.visible;
+
+        if (obj.filter) {
+            //TODO bring some beauty here
+            let filter = new PIXI.filters.ColorMatrixFilter();
+
+            if (obj.filter.hue) filter.hue(obj.filter.hue);
+
+            sprite.filters = [filter];
+        }
 
         if (obj.texture !== obj._ui_meta.texture) {
             sprite.texture = PIXI.loader.resources[obj.texture].texture;

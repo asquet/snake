@@ -71,10 +71,9 @@ export default class Deathmatch {
     }
 
     disposeGame() {
+        this.remote.disconnect();
         this.game.destroy();
         this.game = null;
         this.canvas = $(this.canvas).parent().empty().append(' <canvas id="game-duel-canvas"></canvas>').find('#game-duel-canvas')[0];
-
-        this.remote.disconnect();
     }
 }
