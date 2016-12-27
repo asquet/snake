@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "gulp"
+    "start": "gulp default",
+    "postinstall" : "gulp default"
   },
   "repository": {
     "type": "git",
