@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "gulp default",
-    "postinstall" : "gulp default"
+    "start": "node dist/server/index.js",
+    "postinstall" : "gulp build"
+  },
+  "engines": {
+    "node": "6.9.2"
   },
   "repository": {
     "type": "git",
