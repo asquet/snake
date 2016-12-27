@@ -11,15 +11,20 @@ export default class GameWrap {
     render() {
         let html = $(`
             <div id="gameWrap">
-                <canvas id="game-canvas"></canvas>
+                <h1>Solo game</h1>
+                <div>
+                    <canvas id="game-canvas"></canvas>
+                </div>
+                <button class='back'>Back</button>
             </div>`);
         this.canvas = html.find('#game-canvas')[0];
+        html.find('button.back').on('click',()=>this.owner.event('gameWrap', 'menu'));
         return html;
     }
 
     startGame() {
         if (!this.game) {
-            this.game = gameSetup(loadLevel(), this, window, this.canvas).then(gameRunner => {
+            gameSetup(loadLevel(), this, window, this.canvas).then(gameRunner => {
                 this.game = gameRunner;
                 this.game.startGame();
             });

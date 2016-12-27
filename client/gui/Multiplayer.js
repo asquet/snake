@@ -43,14 +43,14 @@ export default class Multiplayer {
         </div>
         `);
 
-        this.html.find('#setName').on('click', () => {
-            this.setName(this.html.find('input[name=name]').val());
-        });
 
         this.html.find('button.joinGame').on('click', (ev) => {
             let namespace = $(ev.target).attr('data-namespace');
             let name = $(ev.target).text();
             this.owner.event('multiplayer', 'joinGame', {dmCfg: {namespace, name}, player : this.remote.player});
+        });
+        this.html.find('#setName').on('click', () => {
+            this.setName(this.html.find('input[name=name]').val());
         });
 
         this.html.find('button.createGame').on('click', () => {
@@ -93,7 +93,7 @@ export default class Multiplayer {
                 this.reRender();
                 break;
             case 'dmStarting':
-                this.owner.event('multiplayer', 'dmStarting', desc);
+                this.owner.event('multiplayer', 'startGame', desc);
                 break;
         }
     }

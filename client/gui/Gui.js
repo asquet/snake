@@ -12,7 +12,7 @@ export default class Gui {
         this.menu = new Menu(this);
         this.gameWrap = new GameWrap(this);
         this.multiplayer = new Multiplayer(this);
-        this.deathmatch = new Deathmatch();
+        this.deathmatch = new Deathmatch(this);
 
         this.append('menu', this.menu.render());
         this.append('gameWrap', this.gameWrap.render());
@@ -70,7 +70,7 @@ export default class Gui {
             case 'menu' :
                 this.onMenu();
                 break;
-            case 'dmStarting':
+            case 'startGame':
                 this.onDeathmatch('create', desc);
                 break;
             case 'joinGame':
@@ -79,7 +79,12 @@ export default class Gui {
         }
     }
 
-    deathmatchEvent(event, desc) {
+    deathmatchEvent(event) {
+        switch (event) {
+            case 'menu' :
+                this.onMenu();
+                break;
+        }
     }
 
     append(name, dom) {
