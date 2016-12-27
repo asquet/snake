@@ -1,15 +1,29 @@
 *, body {
-    font-family: sans-serif;
+    font-family: Verdana, sans-serif;
 }
 
 #body {
     width: 800px;
+    padding-top: 50px;
     margin: auto;
 }
 
-#mainMenu {
-    margin-top: 40px;
+button, input {
+    padding: 10px 30px;
+    font-size: 1.1em;
+}
+
+.topLevel {
     text-align: center;
+}
+h1 {
+    text-transform: uppercase;
+    font-size: 3.5em;
+    margin: 10px 0 50px;
+}
+
+#mainMenu ul {
+    margin-top: 50px;
 }
 
 #mainMenu li {
@@ -20,4 +34,16 @@
 #gameWrap {
     height: 800px;
     text-align: center;
+}
+
+.mutiplayer-list {
+    margin: 20px 0;
+}
+
+.mutiplayer-list h2 {
+    margin: 10px;
+}
+
+.mutiplayer-list li {
+    padding: 5px;
 }
