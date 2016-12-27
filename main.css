@@ -1,0 +1,23 @@
+*, body {
+    font-family: sans-serif;
+}
+
+#body {
+    width: 800px;
+    margin: auto;
+}
+
+#mainMenu {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#mainMenu li {
+    list-style: none;
+    padding: 10px;
+}
+
+#gameWrap {
+    height: 800px;
+    text-align: center;
+}
