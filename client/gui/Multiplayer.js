@@ -22,13 +22,15 @@ export default class Multiplayer {
                 <input name='name' value='${this.remote.player.name}'/>
                 <button id='setName'>Ok</button>
             </div>
-            <div>
+            <div class="mutiplayer-list">
                 <h2>Currently online:</h2>
                 <ul>
                     ${this.remote.players.map(player => {
                         return `<li>${player.name}</li>`;
                     }).join('')}
                 </ul>
+            </div>
+            <div class="mutiplayer-list">
                 <h2>Ongoing games:</h2>
                 <ul>
                     ${this.remote.games.map(game => {
