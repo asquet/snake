@@ -19,6 +19,6 @@ app.use('/img', express.static('./img'));
 
 let lobby = new Lobby(io);
 
-httpServer.listen(3000, function () {
+httpServer.listen(process.env.PORT || 3000, function () {
     console.log('listening on *:3000');
 });
