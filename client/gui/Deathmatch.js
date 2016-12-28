@@ -59,6 +59,10 @@ export default class Deathmatch {
             case "serverWantsState":
                 this.remote.sendStateToServer(this.game.rootContainer.serialize());
                 break;
+            case "server quit": {
+                alert('Server diconnected. Quiting');
+                this.owner.event('deathmatch', 'menu');
+            }
         }
     }
 
@@ -72,8 +76,10 @@ export default class Deathmatch {
 
     disposeGame() {
         this.remote.disconnect();
-        this.game.destroy();
-        this.game = null;
-        this.canvas = $(this.canvas).parent().empty().append(' <canvas id="game-duel-canvas"></canvas>').find('#game-duel-canvas')[0];
+        if (this.game) {
+            this.game.destroy();
+            this.game = null;
+            this.canvas = $(this.canvas).parent().empty().append(' <canvas id="game-duel-canvas"></canvas>').find('#game-duel-canvas')[0];
+        }
     }
 }

@@ -12,11 +12,11 @@ export default class GameNetManager {
 
     connect(namespace, player) {
         this.player = player;
-        if (!this.socket) {
+        // if (!this.socket) {
             this.socket = io(namespace);
-        } else {
-            this.socket.connect(namespace, {'forceNew': true});
-        }
+        // } else {
+        //     this.socket.connect(namespace, {'forceNew': true});
+        // }
 
         this.socket.emit('hi i am', player);
 
@@ -45,6 +45,9 @@ export default class GameNetManager {
         });
         this.socket.on('other food respawned', (id, coords) => {
             this.updateCallback && this.updateCallback(id, 'food respawned', coords);
+        });
+        this.socket.on('server quit', () => {
+            this.owner.event('server quit');
         });
     }
 

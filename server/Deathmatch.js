@@ -1,7 +1,7 @@
 export default class Deathmatch {
 
     playersBySocket = new Map();
-    serverSocket = null;
+    serverPlayerId = null;
 
     awaitForInitData = [];
 
@@ -22,6 +22,9 @@ export default class Deathmatch {
             this.playersBySocket.delete(socket);
             this.updatePlayerList();
             if (socket === this.serverSocket) {
+                this.serverQuit();
+            }
+            if (this.playersBySocket.size === 0) {
                 this.serverQuit();
             }
         });
@@ -61,12 +64,16 @@ export default class Deathmatch {
         });
     }
 
+    getServerSocket() {
+        return Array.from(this.playersBySocket.entries()).find(e => e[1].id === this.serverPlayerId)[0];
+    }
+
     updatePlayerList() {
         this.io.emit('updatePlayerList', Array.from(this.playersBySocket.values()));
     }
     serverQuit() {
-        this.io.emit('serverQuit');
-        this.notifyOnServerQuit()
+        this.io.emit('server quit');
+        this.notifyOnServerQuit();
     }
 
 

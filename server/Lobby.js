@@ -2,7 +2,7 @@ import Deathmatch from "./Deathmatch";
 
 let counter = 0;
 export default class Lobby {
-    players = new Map();
+    playersBySocket = new Map();
 
     games = new Map();
 
@@ -16,23 +16,23 @@ export default class Lobby {
 
     newConnect(socket) {
         let id = counter++;
-        this.players.set(id, {socket});
 
         socket.emit('setPlayerData', {id});
-        this.updateGameList();
 
         socket.on('disconnect', () => {
-            this.players.delete(id);
+            this.playersBySocket.delete(socket);
             this.updatePlayerList();
         });
 
         socket.on('setName', (name) => {
-            this.setName(id, name);
+            this.playersBySocket.set(socket, {id, name});
+            this.updatePlayerList();
+            this.updateGameList();//update for newly joined players
         });
 
         socket.on('createDeathmatch', (name) => {
             let room = '/dm-' + counter;
-            let deathmatch = new Deathmatch(this.io.of(room),  () => {
+            let deathmatch = new Deathmatch(this.io.of(room), () => {
                 this.disposeDeathmatch(socket);
             });
 
@@ -50,16 +50,15 @@ export default class Lobby {
         })));
     }
 
-    setName(id, name) {
-        this.players.get(id).name = name;
-        this.updatePlayerList();
-    }
-
     updatePlayerList() {
-        this.io.emit('updatePlayerList', Array.from(this.players.entries()).map(e => ({name: e[1].name, id: e[0]})));
+        this.io.emit('updatePlayerList', Array.from(this.playersBySocket.values()).map(v => ({
+            name: v.name,
+            id: v.id
+        })));
     }
 
     disposeDeathmatch(socket) {
+        console.log('disposeDeathmatch');
         let dmCfg = this.games.get(socket);
         if (dmCfg) {
             this.io.removeAllListeners(dmCfg.namespace);
