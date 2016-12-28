@@ -143,6 +143,14 @@ class Snake extends GameObject {
 
             this.state.speedDelay = this.state.speedDelayBaseValue;
         }
+
+        let data = remoteData[this.player.id] || [];
+        data.forEach(ev => {
+            switch (ev.event) {
+                case 'grow':
+                    this.grow();//server told my snake to grow
+            }
+        });
     }
 
     updateStrategyDie() {

@@ -61,10 +61,12 @@ export default class RemoteGameRunner extends GameRunner {
             this.ownSnake = null;
         } else if (event.from === 'snake' && event.type === 'move') {
             this.remote.snakeMoved(event.desc);
-        } else if (event.from === 'snake' && event.type === 'grow') {
-            if (this.personalGlobalState.isServer) this.remote.snakeGrow();
+        } else if (event.type === 'grow') {
+            if (this.personalGlobalState.isServer) {
+                this.remote.snakeGrow(event.self.player);
+            }
         } else if (event.from === 'other snake' && event.type === 'death') {
-            this.rootContainer.removeGameObject(event.desc);
+            this.rootContainer.removeGameObject(event.self);
         } else if (event.type === 'ate food') {
             if (this.personalGlobalState.isServer) {
                 super.event(event);

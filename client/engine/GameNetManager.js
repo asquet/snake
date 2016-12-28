@@ -66,15 +66,14 @@ export default class GameNetManager {
     serverGaveState(data) {
         this.owner.event('loadInitData', data);
     }
-
     snakeMoved(dir) {
         this.socket.emit('snake moved', this.player, dir);
     }
     snakeDied() {
         this.socket.emit('snake died', this.player);
     }
-    snakeGrow() {
-        this.socket.emit('snake grow', this.player);
+    snakeGrow(player) {
+        this.socket.emit('snake grow', player);
     }
     respawnSnake(coords) {
         this.socket.emit('snake respawned', this.player, coords);

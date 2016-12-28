@@ -28,6 +28,7 @@ export default class Deathmatch {
 
         socket.on('hi i am', (player) => {
             this.playersBySocket.set(socket, player);
+            this.updatePlayerList();
         });
 
         socket.on('client wants state', () => {

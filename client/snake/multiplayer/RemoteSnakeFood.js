@@ -12,6 +12,9 @@ export default class RemoteSnakeFood extends SnakeFood {
             this.display.y = data.y;
         }
     }
+    getColliders() {
+        return [];
+    }
 
     serialize() {
         return {

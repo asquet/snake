@@ -7,21 +7,21 @@ export default class RemoteSnake extends Snake {
     updateStrategyDefault({remoteData}) {
         let data = remoteData[this.player.id] || [];
         data.forEach(ev => {
-                switch (ev.event) {
-                    case 'moved':
-                        this.tryEat(this.parent.pointCollides(this.moveBlock({
-                            x: this.head.x,
-                            y: this.head.y
-                        }, this.state.dir)));
-                        this.move(ev.desc);
-                        break;
-                    case 'grow':
-                        this.grow();
-                        break;
-                    case 'died':
-                        this.die();
-                        break;
-                }
+            switch (ev.event) {
+                case 'moved':
+                    this.tryEat(this.parent.pointCollides(this.moveBlock({
+                        x: this.head.x,
+                        y: this.head.y
+                    }, ev.desc)));
+                    this.move(ev.desc);
+                    break;
+                case 'grow':
+                    this.grow();
+                    break;
+                case 'died':
+                    this.die();
+                    break;
+            }
         });
     }
 
@@ -33,7 +33,7 @@ export default class RemoteSnake extends Snake {
             });
             this.dyingCount--;
         } else {
-            this.produceEvent( 'death', this);
+            this.produceEvent('death', this);
         }
     }
 
@@ -47,6 +47,7 @@ export default class RemoteSnake extends Snake {
             player: this.player
         };
     }
+
     static deserialize(hash) {
         let res = new RemoteSnake({}, true, hash.player);
         res.state = hash.state;
