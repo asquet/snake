@@ -58,7 +58,6 @@ export default class Lobby {
     }
 
     disposeDeathmatch(socket) {
-        console.log('disposeDeathmatch');
         let dmCfg = this.games.get(socket);
         if (dmCfg) {
             this.io.removeAllListeners(dmCfg.namespace);
