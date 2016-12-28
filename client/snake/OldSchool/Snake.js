@@ -219,7 +219,7 @@ class Snake extends GameObject {
     }
 
     checkAlive(collisions) {
-        return !collisions.some(col => col.tag === 'wall' || col.tag === 'tail' || col.tag === 'body');
+        return !collisions.some(col => col.tag === 'wall' || col.tag === 'tail' || col.tag === 'body' || col.tag === 'head');
     }
 
     tryEat(collisions) {
