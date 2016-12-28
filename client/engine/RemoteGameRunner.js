@@ -82,8 +82,8 @@ export default class RemoteGameRunner extends GameRunner {
         } else if (event === 'food respawned') {
             this.remoteData["snake_food"] = desc;
         } else {
-            let data = this.remoteData[player] || [];
-            this.remoteData[player] = data.concat([{event, desc}]);
+            let data = this.remoteData[player.id] || [];
+            this.remoteData[player.id] = data.concat([{event, desc}]);
         }
     }
 

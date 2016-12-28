@@ -1,7 +1,6 @@
 export default class Deathmatch {
 
     playersBySocket = new Map();
-    serverPlayerId = null;
 
     awaitForInitData = [];
 
@@ -19,11 +18,13 @@ export default class Deathmatch {
             this.serverSocket = socket;
         }
         socket.on('disconnect', () => {
-            this.playersBySocket.delete(socket);
-            this.updatePlayerList();
             if (socket === this.serverSocket) {
                 this.serverQuit();
+            } else {
+                socket.broadcast.emit('other snake died', this.playersBySocket.get(socket))
             }
+            this.playersBySocket.delete(socket);
+            this.updatePlayerList();
             if (this.playersBySocket.size === 0) {
                 this.serverQuit();
             }
@@ -46,14 +47,14 @@ export default class Deathmatch {
 
         socket.on('snake moved', (t, dir ) => {
             let player = this.playersBySocket.get(socket);
-            socket.broadcast.emit('other snake moved', player.id, dir);
+            socket.broadcast.emit('other snake moved', player, dir);
         });
         socket.on('snake grow', (player) => {
-            socket.broadcast.emit('other snake grow', player.id);
+            socket.broadcast.emit('other snake grow', player);
         });
         socket.on('snake died', () => {
             let player = this.playersBySocket.get(socket);
-            socket.broadcast.emit('other snake died', player.id);
+            socket.broadcast.emit('other snake died', player);
         });
         socket.on('snake respawned', (t, coords) => {
             let player = this.playersBySocket.get(socket);
@@ -62,10 +63,6 @@ export default class Deathmatch {
         socket.on('food respawned', (player, coords) => {
             socket.broadcast.emit('other food respawned', player, coords);
         });
-    }
-
-    getServerSocket() {
-        return Array.from(this.playersBySocket.entries()).find(e => e[1].id === this.serverPlayerId)[0];
     }
 
     updatePlayerList() {
