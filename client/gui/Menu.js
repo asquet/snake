@@ -13,7 +13,6 @@ export default class Menu {
             <ul>
                 <li><button id="startSolo">Solo Game</button></li>
                 <li><button id="multiplayer">Multiplayer</button></li>
-                <li><button id="highScores">High scores</button></li>
             </ul>
         </div>`);
 
